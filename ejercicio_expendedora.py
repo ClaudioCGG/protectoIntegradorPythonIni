@@ -1,14 +1,13 @@
 """ ¡Aquí va un desafío rápido para entrenar tu mente de programador! 🚀  
 
 🔹 **Desafío:** Escribe un programa en Python que simule una **máquina expendedora**. Debe:  
-1️⃣ Mostrar un menú con al menos **3 productos** (Ejemplo: "1. Café - $100", "2. Té - $80", "3. Agua - $50").  
-2️⃣ Pedir al usuario que ingrese su elección.  
-3️⃣ Solicitar el dinero y verificar si es suficiente.  
-4️⃣ Si el dinero es suficiente, dar el producto y calcular el vuelto. Si no, informar que falta dinero.  
+        1️⃣ Mostrar un menú con al menos **3 productos** (Ejemplo: "1. Café - $100", "2. Té - $80", "3. Agua - $50").  
+        2️⃣ Pedir al usuario que ingrese su elección.  
+        3️⃣ Solicitar el dinero y verificar si es suficiente.  
+        4️⃣ Si el dinero es suficiente, dar el producto y calcular el vuelto. Si no, informar que falta dinero.  
 
 💡 **Opcional:** Agregar más lógica como volver al menú si no se tiene suficiente dinero o permitir múltiples compras antes de salir.  
 
-Intenta escribir el código **sin ayuda**, y cuando lo tengas, dime cómo te salió. ¡Vamos, programador! 😃🔥
  """
 """ 
 while True:
