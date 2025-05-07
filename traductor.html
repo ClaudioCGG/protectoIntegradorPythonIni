@@ -1,0 +1,20 @@
+<tbody>
+  <tr>
+    <td><a href="/builtin/abs" class="">abs()</a></td>
+    <td>Return the absolute value of a number.</td>
+  </tr>
+
+  // Seleccionar todos los segundos
+  <td>
+    dentro de cada fila
+    <tr>
+      document.querySelectorAll("tr td:nth-child(2)").forEach(td => {
+      fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=es&dt=t&q=${encodeURIComponent(td.innerText)}`)
+      .then(response => response.json()) .then(data => { td.innerText =
+      data[0][0][0]; // Reemplaza solo el contenido traducido del segundo
+      <td>
+        }) .catch(error => console.error("Error al traducir:", error)); });
+      </td>
+    </tr>
+  </td>
+</tbody>
