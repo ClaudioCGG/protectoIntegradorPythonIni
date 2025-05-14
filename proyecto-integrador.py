@@ -40,6 +40,7 @@ construyendo sobre eso, en lugar de intentar resolver todo de una sola vez.
 
 # Diagrama: https://drive.google.com/file/d/1_kmaWON2xHdlvu21pZvtc5tqPp8wHA1U/view?usp=sharing
 
+# https://github.com/ClaudioCGG/protectoIntegradorPythonIni 
 
 #############################################################################################################
 ############################### BASE DE DATOS CON LISTA DE PRODUCTOS INICIAL ################################
@@ -543,6 +544,7 @@ while True:  # MENÚ INICIO
 
 """ Lista de mejoras a futuro:
 
+✔️ bloquear el campo contraseña con el \r  retorno para que no quede expuesta en el código, igualmente luego se realiza cls para limpiar pantalla
 ✔️ Control de permisos → Definir quién puede modificar estados de pedidos.
 ✔️ Unificar categorias en producto.
 ✔️ Alta producto que no sea cero y de error al castear int en el precio.
@@ -550,5 +552,5 @@ while True:  # MENÚ INICIO
 ✔️ Validar si ya existe el producto porq actualmente puedo repetir el mismo pero id de altas diferentes.
 ✔️ Si cambia la contraseña volver a validarla, conviene función y no repetir todo el código de nuevo.
 ✔️ Historial de pedidos → Guardar registros anteriores para reportes.
-✔️ Filtros en consulta de productos → Búsqueda por precio, categoría, ordenación por nombre o precio. 🔴
+✔️ Filtros en consulta de productos → Búsqueda por precio, categoría, ordenación por nombre o precio. 
  """
