@@ -118,12 +118,15 @@ import os # Para limpiar la terminal y cree una experiencia al usuario más agra
 ############################################################################################################
 ############################################ *** MENÚ INICIO *** ###########################################
 
+print("╔═════════════════════════════════════════════════════════════╗")
+print("║  🎉 ¡BIENVENIDO AL PROYECTO INTEGRADOR PRE-ENTREGABLE! 🎉   ║")
+print("╚═════════════════════════════════════════════════════════════╝")
+time.sleep(0.5)
 while True:  # MENÚ INICIO
 
-    print("╔═════════════════════════════════════════════════════════════╗")
-    print("║  🎉 ¡BIENVENIDO AL PROYECTO INTEGRADOR PRE-ENTREGABLE! 🎉   ║")
-    print("╚═════════════════════════════════════════════════════════════╝")
+
     print("\n✨ Por favor, digite una opción para continuar. 🚀")
+    time.sleep(0.5)
 
     """     # Iniciamos la animación del cohete 
     animacion_activa = True """
@@ -151,21 +154,21 @@ while True:  # MENÚ INICIO
             if re.match(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$", nombre):
                 break
             else:
-                print("❌ Error: El nombre solo debe contener letras y espacios.")
+                print("❌ Error: El nombre solo debe contener letras y espacios❗")
 
         while True:  # Validar apellido con espacios
             apellido = input("Ingresá tu apellido: ").strip()
             if re.match(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$", apellido):
                 break
             else:
-                print("❌ Error: El apellido solo debe contener letras y espacios.")
+                print("❌ Error: El apellido solo debe contener letras y espacios❗")
 
         while True:  # Validación del email
             email = input("Ingresá tu email: ").strip()
             if re.match(r"[^@]+@[^@]+\.[a-zA-Z]{2,}", email):
                 break
             else:
-                print("❌ Email inválido. Ingresá un email correcto.")
+                print("❌ Email inválido. Ingresá un email correcto❗")
 
         while True:  # Validación de fecha de nacimiento
             nacimiento = input("Ingresá tu fecha de nacimiento (dd/mm/aaaa): ").strip()
@@ -173,7 +176,7 @@ while True:  # MENÚ INICIO
                 fecha_nac = datetime.datetime.strptime(nacimiento, "%d/%m/%Y")  # Convertir a fecha válida
                 break  # Si es correcta, salir del bucle
             except ValueError:
-                print("❌ Fecha inválida. Ingresá una fecha correcta.")
+                print("❌ Fecha inválida. Ingresá una fecha correcta❗")
 
         while True:  # Validación de contraseña segura
             password = input("Ingresá una contraseña segura: ").strip()
@@ -183,7 +186,7 @@ while True:  # MENÚ INICIO
                 re.search(r'[0-9]', password)):
                 break
             else:
-                print("❌ Contraseña inválida. Debe tener al menos 8 caracteres, incluir una mayúscula y un número.")
+                print("❌ Contraseña inválida. Debe tener al menos 8 caracteres, incluir una mayúscula y un número❗")
 
 
 
@@ -209,17 +212,20 @@ while True:  # MENÚ INICIO
     ###########################################################################################
     ##################################### SUB MENU LOGIN ######################################
     elif opcion_inicio == "2":
+        os.system('cls')
+        print(f"\n\t\t🔹 Seleccionó:    🔒 INICIAR SESION  \n")
+        time.sleep(0.5) 
         email = input("Ingresá tu email: ").strip()
+        time.sleep(0.5) 
         password = input("Ingresá tu contraseña: ").strip()
+        time.sleep(0.5) 
 
         for cliente in clientes: #**** mejora>  posiblemente la validacion verifica que exista el usuario y contraseña pero no valida que sea el mismo índice
             if cliente["Email"] == email and cliente["Password"] == password:
                 usuario_actual = cliente
-                os.system('cls')
-                print(f"✅ Inicio de sesión exitoso. Bienvenido, {cliente['Nombre']}.")
                 break
         else:
-            print("❌ Email o contraseña incorrectos.")
+            print("❌ Email o contraseña incorrectos❗")
             time.sleep(1) 
             os.system('cls')
 
@@ -234,7 +240,9 @@ while True:  # MENÚ INICIO
         break  # Finaliza el programa
 
     else:
-        print("❌ Opción inválida.")
+        os.system('cls')
+        time.sleep(0.5)
+        print("❌ Opción inválida❗❗❗")
         continue  # Volver al menú
 
     ###########################################################################################
@@ -243,7 +251,8 @@ while True:  # MENÚ INICIO
     while usuario_actual:
 
         os.system('cls')
-        time.sleep(1) 
+        print(f"✅ Bienvenido {usuario_actual['Nombre']}!")
+        time.sleep(0.5) 
         print("\n📌 Menú Principal\n")
         print("\t1. ✍   Mis Datos")
         print("\t2. 📦  Productos")
@@ -309,14 +318,14 @@ while True:  # MENÚ INICIO
                         break  # Salir del menú de usuario y regresar al inicio
 
                     else:
-                        print("❌ Cancelación de eliminación.")
+                        print("❌ Cancelación de eliminación❗")
 
                 elif opcion_usuario == "4":  # VOLVER AL MENÚ PRINCIPAL
                     print("🔙 Volviendo al menú principal...")
                     break  
 
                 else:
-                    print("❌ Opción inválida, intentá de nuevo.")
+                    print("❌ Opción inválida, intentá de nuevo❗❗❗")
 
 
         ###########################################################################################
@@ -328,10 +337,10 @@ while True:  # MENÚ INICIO
             time.sleep(0.5) 
             while True:
                 print("\n📦 Gestión de Productos\n")
-                print("\t1. Agregar producto")
-                print("\t2. Ver productos") # Se podria mejorar agregando filtros de busqueda por categoria o precio
-                print("\t3. Modificar producto")
-                print("\t4. Eliminar producto\n")
+                print("\t1. ➕ Agregar producto")
+                print("\t2. 📋 Ver productos") # Se podria mejorar agregando filtros de busqueda por categoria o precio
+                print("\t3. ✅ Modificar producto")
+                print("\t4. ❌ Eliminar producto\n")
                 print("\t5. ⏪⏪⏪ Volver\n")
 
                 opcion_producto = input("Elegí una opción: ")
@@ -384,7 +393,7 @@ while True:  # MENÚ INICIO
                             print(f"✅ Producto {codigo_buscar} actualizado.")
                             break
                     else:
-                        print("❌ Producto no encontrado.")
+                        print("❌ Producto no encontrado❗")
 
                 elif opcion_producto == "4":  # ELIMINAR PRODUCTO
                     codigo_buscar = int(input("Ingresá el código del producto a eliminar: "))
@@ -395,26 +404,26 @@ while True:  # MENÚ INICIO
                             print(f"✅ Producto {codigo_buscar} eliminado.")
                             break
                     else:
-                        print("❌ Producto no encontrado.")
+                        print("❌ Producto no encontrado❗")
 
                 elif opcion_producto == "5":  # SALIR DEL SUBMENÚ
                     print("🔚 Volviendo al menú principal...")
                     break  
 
                 else:
-                    print("❌ Opción inválida, intentá de nuevo.")
+                    print("❌ Opción inválida, intentá de nuevo❗❗❗")
 
 
         ###########################################################################################
         ###################V########### 3 SUB MENÚ PEDIDOS CRUD #################################
         elif opcion_principal == "3":
                 print("\n📦 Gestión de Pedidos\n")
-                print("\t 1. Listar productos disponibles")
-                print("\t 2. Crear pedido")
-                print("\t 3. Ver pedidos")
-                print("\t 4. Modificar cantidad")
-                print("\t 5. Cancelar pedido")
-                print("\t 6. Modificar estado del pedido")
+                print("\t 1. 📋 Listar productos disponibles")
+                print("\t 2. ➕ Crear pedido")
+                print("\t 3. 📦 Ver pedidos")
+                print("\t 4. ✅ Modificar cantidad")
+                print("\t 5. ❌ Cancelar pedido")
+                print("\t 6. 📝 Modificar estado del pedido\n")
                 print("\t 7. ⏪⏪⏪ Volver")
 
                 opcion_pedido = input("Elegí una opción: ")
@@ -445,7 +454,7 @@ while True:  # MENÚ INICIO
                                 "Precio Total": precio_total
                             })
                         else:
-                            print("❌ Código no válido.")
+                            print("❌ Código no válido❗")
 
                     pedidos.append({
                         "Nro Pedido": nro_pedido,
@@ -479,9 +488,9 @@ while True:  # MENÚ INICIO
                                 print("✅ Cantidad actualizada.")
                                 break
                         else:
-                            print("❌ Código de producto no encontrado en el pedido.")
+                            print("❌ Código de producto no encontrado en el pedido❗")
                     else:
-                        print("❌ No se puede modificar un pedido Enviado/Entregado/Cancelado.")
+                        print("❌ No se puede modificar un pedido Enviado/Entregado/Cancelado❗")
 
                 elif opcion_pedido == "5":  # CANCELAR PEDIDO
                     nro_pedido = int(input("Número de pedido a cancelar: "))
@@ -493,7 +502,7 @@ while True:  # MENÚ INICIO
                         pedido_seleccionado["Observación"] = motivo
                         print(f"✅ Pedido {nro_pedido} cancelado. Motivo: {motivo}")
                     else:
-                        print("❌ No se puede cancelar un pedido Enviado/Entregado.")
+                        print("❌ No se puede cancelar un pedido Enviado/Entregado❗")
 
                 elif opcion_pedido == "6":  # MODIFICAR ESTADO DEL PEDIDO
                     nro_pedido = int(input("\nNúmero de pedido a modificar: "))
@@ -508,11 +517,11 @@ while True:  # MENÚ INICIO
                                 pedido_seleccionado["Estado Pedido"] = nuevo_estado
                                 print(f"\n✅ Pedido {nro_pedido} actualizado a '{nuevo_estado}'")
                             else:
-                                print("\n❌ Estado inválido. Solo se puede cambiar a 'Enviado' o 'Entregado'.")
+                                print("\n❌ Estado inválido. Solo se puede cambiar a 'Enviado' o 'Entregado'❗")
                         else:
-                            print("\n❌ No se puede modificar el estado de un pedido Cancelado o ya Enviado.")
+                            print("\n❌ No se puede modificar el estado de un pedido Cancelado o ya Enviado❗")
                     else:
-                        print("\n❌ Pedido no encontrado.")
+                        print("\n❌ Pedido no encontrado❗")
 
                 ###
                 elif opcion_pedido == "6":  # SALIR DEL SUBMENÚ
@@ -520,7 +529,7 @@ while True:  # MENÚ INICIO
                     break 
 
                 else:
-                    print("\n❌ Opción inválida, intentá de nuevo.")
+                    print("\n❌ Opción inválida, intentá de nuevo❗❗❗")
 
         ###########################################################################################
         ##################################### 4 OPCION CERRAR #####################################
@@ -529,16 +538,17 @@ while True:  # MENÚ INICIO
             usuario_actual = None  # Reinicia usuario
             break  # Vuelve al menú de inicio
         else:
-            print("\n❌ Opción inválida.")
+            print("\n❌ Opción inválida❗❗❗")
 
 
 """ Lista de mejoras a futuro:
 
 ✔️ Control de permisos → Definir quién puede modificar estados de pedidos.
 ✔️ Unificar categorias en producto.
+✔️ Alta producto que no sea cero y de error al castear int en el precio.
 ✔️ Restricción de largos a los campos de producto y su descripción.
 ✔️ Validar si ya existe el producto porq actualmente puedo repetir el mismo pero id de altas diferentes.
 ✔️ Si cambia la contraseña volver a validarla, conviene función y no repetir todo el código de nuevo.
 ✔️ Historial de pedidos → Guardar registros anteriores para reportes.
-✔️ Filtros en consulta de productos → Búsqueda por precio, categoría, ordenación por nombre o precio.
+✔️ Filtros en consulta de productos → Búsqueda por precio, categoría, ordenación por nombre o precio. 🔴
  """
