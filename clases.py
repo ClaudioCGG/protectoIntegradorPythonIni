@@ -526,3 +526,4 @@ cuándo usar for en lugar de while es clave para optimizar tus programas y traba
 #####################################
 ###        *** CLASE 7 ***        ###
 #####################################
+

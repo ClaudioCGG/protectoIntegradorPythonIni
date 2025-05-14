@@ -109,6 +109,11 @@ usuario_actual = None  # Al inicio, nadie está logueado
 
 import datetime
 import re  # Para validación de contraseñas
+import time # Para crear transiciones mas sutiles de menus
+import os # Para limpiar la terminal y cree una experiencia al usuario más agradable
+""" import threading # Para manejar hilos de ejecucion principalmente en las animaciones de consola """
+
+
 
 ############################################################################################################
 ############################################ *** MENÚ INICIO *** ###########################################
@@ -120,24 +125,30 @@ while True:  # MENÚ INICIO
     print("╚═════════════════════════════════════════════════════════════╝")
     print("\n✨ Por favor, digite una opción para continuar. 🚀")
 
+    """     # Iniciamos la animación del cohete 
+    animacion_activa = True """
 
     print("-" * 60)  # Puedes ajustar el número para ver cuándo corta la línea
     print("\n🔹 Menú de Inicio\n")
     print("\t1. 📝 Registrarse")
-    print("\t2. 🔒 Iniciar Sesión")
+    print("\t2. 🔒 Iniciar Sesión\n")
     print("\t3. ❌ Salir")
 
     opcion_inicio = input("\nElegí una opción: ")
+
+    time.sleep(1) 
+    os.system('cls')
 
     ###########################################################################################
     #################################### SUB MENU REGISTRO ####################################
     if opcion_inicio == "1":
 
         ###
+        print(f"\n\t\t🔹 Seleccionó:    📝 MENU REGISTRO  \n")
 
         while True:  # Validar nombre con espacios
             nombre = input("Ingresá tu nombre: ").strip()
-            if re.match(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$", nombre):
+            if re.match(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$", nombre):
                 break
             else:
                 print("❌ Error: El nombre solo debe contener letras y espacios.")
@@ -191,6 +202,8 @@ while True:  # MENÚ INICIO
         })
 
         usuario_actual = clientes[-1]  # Guarda el usuario logueado
+        time.sleep(1) 
+        os.system('cls')
         print(f"✅ ¡Registro exitoso! Bienvenido {nombre}!")
 
     ###########################################################################################
@@ -202,14 +215,22 @@ while True:  # MENÚ INICIO
         for cliente in clientes: #**** mejora>  posiblemente la validacion verifica que exista el usuario y contraseña pero no valida que sea el mismo índice
             if cliente["Email"] == email and cliente["Password"] == password:
                 usuario_actual = cliente
+                os.system('cls')
                 print(f"✅ Inicio de sesión exitoso. Bienvenido, {cliente['Nombre']}.")
                 break
         else:
             print("❌ Email o contraseña incorrectos.")
+            time.sleep(1) 
+            os.system('cls')
+
             continue  # Volver a pedir credenciales
 
     elif opcion_inicio == "3":  # SALIR DEL PROGRAMA
-        print("\n\t\t🔚 ¡Hasta luego! 👋 👋 👋\n")
+        time.sleep(0.5) 
+        os.system('cls')
+        print("\n\t\t👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋")
+        print("\n\t\t👋 👋 👋 👋 ¡Hasta luego! 👋 👋 👋 👋 👋")
+        print("\n\t\t👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋\n\n")
         break  # Finaliza el programa
 
     else:
@@ -220,10 +241,13 @@ while True:  # MENÚ INICIO
     ###################### MENÚ PRINCIPAL (solo si hay usuario logueado) ######################
 
     while usuario_actual:
+
+        os.system('cls')
+        time.sleep(1) 
         print("\n📌 Menú Principal\n")
         print("\t1. ✍   Mis Datos")
         print("\t2. 📦  Productos")
-        print("\t3. 🛒  Pedidos")
+        print("\t3. 🛒  Pedidos\n")
         print("\t4. ❌  Cerrar Sesión")
 
         opcion_principal = input("\nElegí una opción: ")
@@ -231,28 +255,42 @@ while True:  # MENÚ INICIO
         ###########################################################################################
         ########################## 1 SUB MENÚ MIS DATOS CRUD (actualizar o baja) ##################
         if opcion_principal == "1":
+            time.sleep(1) 
+            os.system('cls')
+
             while usuario_actual:
-                print("\n👤 Gestión de Usuario\n")
-                print("\t1. Ver mis datos")
-                print("\t2. Modificar mis datos")
-                print("\t3. Eliminar mi cuenta")
-                print("\t4. Volver al menú principal\n")
+                print("\n👤 Menu Gestión de Mis Datos\n")
+                print("\t1. 👓 Ver mis datos")
+                print("\t2. 📝 Modificar mis datos")
+                print("\t3. 🚨 Eliminar mi cuenta\n")
+                print("\t4. ⏪⏪⏪ Volver al menú principal\n")
 
                 opcion_usuario = input("Elegí una opción: ")
 
                 if opcion_usuario == "1":  # LEER DATOS DEL USUARIO
-                    print("\n📌 Datos de tu perfil:")
-                    print(f"Nombre: {usuario_actual['Nombre']}")
-                    print(f"Apellido: {usuario_actual['Apellido']}")
-                    print(f"Fecha de Nacimiento: {usuario_actual['Fecha de Nacimiento']}")
-                    print(f"Perfil: {usuario_actual['Perfil']}")  # No se permite modificar
-                    print("🔒 Email y ID protegidos (no modificables)")
+                    time.sleep(1) 
+                    os.system('cls')
+                    print("╔═════════════════════════════════════════════════════════════╗")
+                    print(" 📌 Mis Datos:")
+                    print(f"\t Nombre: {usuario_actual['Nombre']}")
+                    print(f"\t Apellido: {usuario_actual['Apellido']}")
+                    print(f"\t Fecha de Nacimiento: {usuario_actual['Fecha de Nacimiento']}")
+                    print(f"\t Perfil: {usuario_actual['Perfil']}")  # No se permite modificar
+                    print("╚═════════════════════════════════════════════════════════════╝")
+                    time.sleep(1) 
 
                 elif opcion_usuario == "2":  # MODIFICAR DATOS
+                    os.system('cls')
+                    print("\n📝 Menu Editar Mis Datos\n")
+                    time.sleep(0.5) 
                     usuario_actual["Nombre"] = input(f"Nuevo nombre ({usuario_actual['Nombre']}): ") or usuario_actual["Nombre"]
+                    time.sleep(0.5) 
                     usuario_actual["Apellido"] = input(f"Nuevo apellido ({usuario_actual['Apellido']}): ") or usuario_actual["Apellido"]
+                    time.sleep(0.5) 
                     usuario_actual["Fecha de Nacimiento"] = input(f"Nueva fecha de nacimiento ({usuario_actual['Fecha de Nacimiento']}): ") or usuario_actual["Fecha de Nacimiento"]
+                    time.sleep(0.5) 
                     nueva_password = input("Nueva contraseña: ")
+                    time.sleep(0.5) 
 
                     if nueva_password:
                         usuario_actual["Password"] = nueva_password  # Permitir cambio de contraseña
@@ -265,7 +303,9 @@ while True:  # MENÚ INICIO
                     if confirmar == "sí":
                         clientes.remove(usuario_actual)  # Eliminar usuario de la lista
                         usuario_actual = None  # Cerrar sesión
+                        os.system('cls')
                         print("🔴 Tu cuenta ha sido eliminada. Volviendo al menú de inicio...")
+                        time.sleep(1) 
                         break  # Salir del menú de usuario y regresar al inicio
 
                     else:
@@ -283,21 +323,31 @@ while True:  # MENÚ INICIO
         ###################V########### 2 SUB MENÚ PRODUCTOS CRUD #################################
 
         elif opcion_principal == "2":
+            os.system('cls')
+            print("\n🔹 Seleccionó la opción 2:\n")
+            time.sleep(0.5) 
             while True:
                 print("\n📦 Gestión de Productos\n")
                 print("\t1. Agregar producto")
                 print("\t2. Ver productos") # Se podria mejorar agregando filtros de busqueda por categoria o precio
                 print("\t3. Modificar producto")
-                print("\t4. Eliminar producto")
-                print("\t5. Salir\n")
+                print("\t4. Eliminar producto\n")
+                print("\t5. ⏪⏪⏪ Volver\n")
 
                 opcion_producto = input("Elegí una opción: ")
 
                 if opcion_producto == "1":  # CREAR PRODUCTO
+                    time.sleep(0.5)
+                    os.system('cls')
+                    print("\tSeleccionó Opción 1: ALTA DE PRODUCTO")
                     nombre = input("Nombre del producto: ").strip()
+                    time.sleep(0.5)
                     precio = input("Precio: ").strip()
+                    time.sleep(0.5)
                     descripcion = input("Descripción: ").strip()
+                    time.sleep(0.5)
                     categoria = input("Categoría: ").strip()
+                    time.sleep(0.5)
 
                     # Buscar el último código y sumarle 1
                     nuevo_codigo = max([p["codigo"] for p in productos], default=100) + 1
@@ -314,9 +364,9 @@ while True:  # MENÚ INICIO
                     print(f"✅ Producto {nombre} agregado con código {nuevo_codigo}.")
 
                 elif opcion_producto == "2":  # LEER PRODUCTOS
-                    print("\n📋 Lista de Productos:")
+                    print("\n📋 Lista de Productos:\n")
+                    print("Cod. | Nombre | Precio unit | Descripción | Categoría")
                     for p in productos:
-                        print("Cod. | Nombre | Precio unit | Descripción | Categoría")
                         print(f"{p['codigo']} - {p['nombre']} | ${p['precio']} | {p['descripcion']} | {p['categoria']}")
 
                 elif opcion_producto == "3":  # ACTUALIZAR PRODUCTO
@@ -365,7 +415,7 @@ while True:  # MENÚ INICIO
                 print("\t 4. Modificar cantidad")
                 print("\t 5. Cancelar pedido")
                 print("\t 6. Modificar estado del pedido")
-                print("\t 7. Salir\n")
+                print("\t 7. ⏪⏪⏪ Volver")
 
                 opcion_pedido = input("Elegí una opción: ")
 
@@ -485,6 +535,10 @@ while True:  # MENÚ INICIO
 """ Lista de mejoras a futuro:
 
 ✔️ Control de permisos → Definir quién puede modificar estados de pedidos.
+✔️ Unificar categorias en producto.
+✔️ Restricción de largos a los campos de producto y su descripción.
+✔️ Validar si ya existe el producto porq actualmente puedo repetir el mismo pero id de altas diferentes.
+✔️ Si cambia la contraseña volver a validarla, conviene función y no repetir todo el código de nuevo.
 ✔️ Historial de pedidos → Guardar registros anteriores para reportes.
 ✔️ Filtros en consulta de productos → Búsqueda por precio, categoría, ordenación por nombre o precio.
  """
