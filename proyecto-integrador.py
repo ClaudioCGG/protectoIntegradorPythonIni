@@ -54,6 +54,14 @@ productos = [
     {"codigo": 106, "nombre": "Microondas", "precio": 150, "descripcion": "Potente y autolimpieza", "categoria": "Cocina"}
 ]
 
+# BASE DE CATEGORIAS
+categorias = {
+    "1": "Cocina",
+    "2": "Pequeños electrodomésticos",
+    "3": "Tecnología"
+}
+
+
 # BASE DE USUARIOS INICIAL
 clientes = [
     {"ID": 1, "Nombre": "Usuario", "Apellido": "Apellido1", "Email": "usuario.apellido1@gmail.com", "Fecha de Nacimiento": "01/03/1980", "Perfil": "usuario", "Password": "Usuario123"},
@@ -133,7 +141,7 @@ while True:  # MENU INICIAL
     print("\t1. 📝 Registrarse")
     print("\t2. 🔒 Iniciar Sesión\n")
     print("\t3. ❌ Salir")
-    opcion_inicio = input("\nElegí una opción: ")
+    opcion_inicio = input("\n Elegí una opción: ")
     time.sleep(1) 
     os.system('cls')
     ###########################################################################################
@@ -192,7 +200,7 @@ while True:  # MENU INICIAL
             "Password": password
         })
         usuario_actual = clientes[-1]  # Guarda el usuario logueado
-        time.sleep(1) 
+        time.sleep(1)
         os.system('cls')
         print(f"✅ ¡Registro exitoso! Bienvenido {nombre}!")
     ###########################################################################################
@@ -200,22 +208,20 @@ while True:  # MENU INICIAL
     elif opcion_inicio == "2":
         os.system('cls')
         print(f"\n\t\t🔹 Seleccionó:    🔒 INICIAR SESION  \n")
-        time.sleep(0.5) 
         email = input("Ingresá tu email: ").strip()
-        time.sleep(0.5) 
+        time.sleep(0.5)
         password = input("Ingresá tu contraseña: ").strip()
-        time.sleep(0.5) 
+        time.sleep(0.5)
         for cliente in clientes: #**** mejora>  posiblemente la validacion verifica que exista el usuario y contraseña pero no valida que sea el mismo índice
             if cliente["Email"] == email and cliente["Password"] == password:
                 usuario_actual = cliente
                 break
         else:
             print("❌ Email o contraseña incorrectos❗")
-            time.sleep(1) 
             os.system('cls')
             continue  # Volver a pedir credenciales
     elif opcion_inicio == "3":  # SALIR DEL PROGRAMA
-        time.sleep(0.5) 
+        time.sleep(0.5)
         os.system('cls')
         print("\n\t\t👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋 👋")
         print("\n\t\t👋 👋 👋 👋 ¡Hasta luego! 👋 👋 👋 👋 👋")
@@ -231,7 +237,7 @@ while True:  # MENU INICIAL
     while usuario_actual:
         os.system('cls')
         print(f"✅ Bienvenido {usuario_actual['Nombre']}!")
-        time.sleep(0.5) 
+        time.sleep(0.5)
         print("\n📌 Menú Principal\n")
         print("\t1. ✍   Mis Datos")
         print("\t2. 📦  Productos")
@@ -241,7 +247,7 @@ while True:  # MENU INICIAL
         ###########################################################################################
         ########################## 1 SUB MENÚ MIS DATOS CRUD (actualizar o baja) ##################
         if opcion_principal == "1":
-            time.sleep(1) 
+            time.sleep(0.5)
             os.system('cls')
             while usuario_actual:
                 print("\n👤 Menu Gestión de Mis Datos\n")
@@ -251,7 +257,7 @@ while True:  # MENU INICIAL
                 print("\t4. ⏪⏪⏪ Volver al menú principal\n")
                 opcion_usuario = input("Elegí una opción: ")
                 if opcion_usuario == "1":  # LEER DATOS DEL USUARIO
-                    time.sleep(1) 
+                    time.sleep(1)
                     os.system('cls')
                     print("╔═════════════════════════════════════════════════════════════╗")
                     print(" 📌 Mis Datos:")
@@ -260,7 +266,7 @@ while True:  # MENU INICIAL
                     print(f"\t Fecha de Nacimiento: {usuario_actual['Fecha de Nacimiento']}")
                     print(f"\t Perfil: {usuario_actual['Perfil']}")  # No se permite modificar
                     print("╚═════════════════════════════════════════════════════════════╝")
-                    time.sleep(1) 
+                    time.sleep(1)
                 elif opcion_usuario == "2":  # MODIFICAR DATOS
                     os.system('cls')
                     print("\n📝 Menu Editar Mis Datos\n")
@@ -289,15 +295,16 @@ while True:  # MENU INICIAL
                         print("❌ Cancelación de eliminación❗")
                 elif opcion_usuario == "4":  # VOLVER AL MENÚ PRINCIPAL
                     print("🔙 Volviendo al menú principal...")
-                    break  
+                    break
                 else:
                     print("❌ Opción inválida, intentá de nuevo❗❗❗")
+                    continue  # Volver a solicitar opcion
         ###########################################################################################
         ###################V########### 2 SUB MENÚ PRODUCTOS CRUD #################################
         elif opcion_principal == "2":
             os.system('cls')
             print("\n🔹 Seleccionó la opción 2:\n")
-            time.sleep(0.5) 
+            time.sleep(0.5)
             while True:
                 print("\n📦 Gestión de Productos\n")
                 print("\t1. ➕ Agregar producto")
@@ -331,7 +338,6 @@ while True:  # MENU INICIAL
                     print(f"✅ Producto {nombre} agregado con código {nuevo_codigo}.")
                 elif opcion_producto == "2":  # BUSCAR PRODUCTOS
                     while True:
-                        os.system('cls')
                         time.sleep(0.5)
                         print("\n📦 Buscar Productos\n")
                         print("\t1. listado de productos totales")
@@ -339,13 +345,14 @@ while True:  # MENU INICIAL
                         print("\t3. x Categoría") # Se podria mejorar agregando filtros de busqueda por categoria o precio
                         print("\t4. x Precio\n")
                         print("\t5. ⏪⏪⏪ Volver\n")
-                        opcion_producto = input("Elegí una opción: ") #BUG:
+                        opcion_producto = input("Elegí una opción: ")
                         if opcion_producto == "1":  # listado de productos totales
-                            time.sleep(0.5)
+                            os.system('cls')
                             print("\n📋 Listado Total de Productos:\n")
                             print("Cod. | Nombre | Precio unit | Descripción | Categoría")
                             for p in productos:
                                 print(f"{p['codigo']} - {p['nombre']} | ${p['precio']} | {p['descripcion']} | {p['categoria']}")
+                            time.sleep(1)
                         elif opcion_producto == "2":  # buscar por codigo de producto
                             time.sleep(0.5)
                             codigo_buscar = int(input("Ingresá el código del producto a buscar: \n"))
@@ -358,36 +365,23 @@ while True:  # MENU INICIAL
                             else:
                                 print("\n No se encontró ningún producto con ese código.")
                         elif opcion_producto == "3":  # buscar por categoria de producto
-                            print(f"Detalles de Categorias producto:\n")
-                            print(f"\t 1 - Cocina")
-                            print(f"\t 2 - Pequeños electrodomésticos")
-                            print(f"\t 3 - Tecnología")
-                            opcion_categoria = input("Elegí una categoria: ")
-                            if opcion_categoria =="1":
-                                categoria_filtrar= "Cocina"
-                                print(f"Detalles de productos de Cocina:\n")
-                                productos_filtrados = [p for p in productos if p["categoria"].lower() == categoria_filtrar]
+                            print("Detalles de Categorías de producto:")
+                            for key, value in categorias.items():
+                                print(f"\t{key} - {value}")
+                            opcion_categoria = input("Elegí una categoría: ")
+                            if opcion_categoria in categorias:
+                                categoria_filtrar = categorias[opcion_categoria]
+                                print(f"\nDetalles de productos en la categoría '{categoria_filtrar}':\n")
+                                productos_filtrados = [p for p in productos if p["categoria"].lower() == categoria_filtrar.lower()]
                                 if productos_filtrados:
-                                    print(f"\nProductos en la categoría '{categoria_filtrar}':")
                                     for p in productos_filtrados:
                                         print(f"Código: {p['codigo']} | Nombre: {p['nombre']} | Precio: ${p['precio']}")
-                            elif opcion_categoria =="2":
-                                categoria_filtrar= "Pequeños electrodomésticos"
-                                print(f"Detalles de productos de Pequeños electrodomésticos:\n")
-                                productos_filtrados = [p for p in productos if p["categoria"].lower() == categoria_filtrar]
-                                if productos_filtrados:
-                                    print(f"\nProductos en la categoría '{categoria_filtrar}':")
-                                    for p in productos_filtrados:
-                                        print(f"Código: {p['codigo']} | Nombre: {p['nombre']} | Precio: ${p['precio']}")
-                            elif opcion_categoria =="3":
-                                categoria_filtrar= "Tecnología"
-                                print(f"Detalles de productos de Tecnología:\n")
-                                productos_filtrados = [p for p in productos if p["categoria"].lower() == categoria_filtrar]
-                                if productos_filtrados:
-                                    print(f"\nProductos en la categoría '{categoria_filtrar}':")
-                                    for p in productos_filtrados:
-                                        print(f"Código: {p['codigo']} | Nombre: {p['nombre']} | Precio: ${p['precio']}")
-                        elif opcion_producto == "4":  # buscar por precio NOW:
+                                else:
+                                    print("No se encontraron productos en esta categoría.")
+                            else:
+                                print("Opción no válida. Inténtalo de nuevo.")
+                                continue
+                        elif opcion_producto == "4":  # buscar por precio
                             tipo_filtro = input("¿Quieres buscar productos 'menores' o 'mayores' a un precio: ").lower()
                             precio_limite = int(input("Ingresá el precio límite: "))
                             if tipo_filtro == "menores":
@@ -405,9 +399,10 @@ while True:  # MENU INICIAL
                                 print("\nNo se encontraron productos en ese rango de precio.")
                         elif opcion_producto == "5":  # Salir
                             print("🔙 Volviendo al menú principal...")
-                            break  
-                        else: 
+                            break
+                        else:
                             print("❌ Opción inválida, intentá de nuevo❗❗❗")
+                            continue
                 elif opcion_producto == "3":  # ACTUALIZAR PRODUCTO
                     codigo_buscar = int(input("Ingresá el código del producto a modificar: "))
                     for producto in productos:
