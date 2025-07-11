@@ -1,13 +1,14 @@
 📌 Proyecto Integrador CURSO INICIAL PYTHON Comisión 25009 
 
 🔹 Descripción
-Este proyecto consiste en el desarrollo de una aplicación en Python para gestionar información de clientes, productos y pedidos mediante un sistema CRUD básico por Terminal.
+Entrega Final del Proyecto Integrador. Desarrollo de una aplicación en Python para gestionar información de un inventario de productos mediante un sistema CRUD por Terminal.
+
 La aplicación permite:
-- Registrar nuevos usuarios y productos.
-- Consultar datos existentes con filtros y ordenamiento.
-- Modificar información de usuarios, productos y pedidos.
-- Eliminar registros de la base de datos temporal.
-- Gestionar pedidos, incluyendo cambios de estado y cancelaciones.
+- Registrar nuevos productos.
+- Consultar datos existentes con filtros id.
+- Modificar información de productos.
+- Eliminar registros de productos.
+
 
 🔹 Requisitos
 Para ejecutar el proyecto, asegúrate de tener instalado:
@@ -16,40 +17,23 @@ Para ejecutar el proyecto, asegúrate de tener instalado:
 
 🔹 Instalación
 - Clonar el repositorio:
-git clone https://github.com/tu_usuario/proyecto-integrador.git
+    git clone https://github.com/ClaudioCGG/protectoIntegradorPythonIni
+
+🔹 Diagrama: https://drive.google.com/file/d/1_kmaWON2xHdlvu21pZvtc5tqPp8wHA1U/view?usp=sharing
+
+
 cd proyecto-integrador
 - Ejecutar el archivo principal:
-python main.py
-
-
+        main.py
 
 🔹 Uso
-Menú Login
-Al iniciar el programa, verás el siguiente menú:
-- 📝 Registrarse
-- 🔒 Iniciar sesión
-
-Menú Principal
-- 📝 Gestionar mis Datos
-- 📦 Gestión de Productos
-- 🛒 Gestión de Pedidos
+Menú Principal con CRUD para:
+- 📦 Gestión de Inventario
 
 Cada módulo contiene submenús para realizar operaciones CRUD.
-
-Ejemplo de registro de producto
-productos.append({
-    "codigo": 107,
-    "nombre": "Teclado Mecánico",
-    "precio": 120,
-    "descripcion": "Teclado RGB con switches azules",
-    "categoria": "Tecnología"
-})
-
 🔹 Mejoras a Futuro
 ✔️ Control de permisos por usuario
 ✔️ Validación de productos duplicados
-✔️ Implementación de funciones para modularizar
-✔️ Persistencia con SQLite
 ✔️ Reporte de historial de pedidos
 
 🔹 Contribución

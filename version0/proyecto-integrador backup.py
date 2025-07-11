@@ -1,59 +1,3 @@
-"""                                         DOCS:*** METODOLOGÍA ***
-
-Crear una carpeta en drive que contenga los archivos y carpetas que conforman tu proyecto. Compartir el link en el apartado de entrega en
-el Campus Virtual. Al final de la cursada, serás evaluado mediante la entrega de un Proyecto Integrador, esta última instancia evaluativa es
-de carácter obligatorio para finalizar el curso y obtener la certificación.  Este proyecto se construirá de manera progresiva a lo largo de
-la cursada, combinando la "Pre - Entrega" y la resolución de los "Ejercicios Prácticos" siguientes presentes en las clases. Las "Rubricas de
-Evaluación" del Proyecto final integrador estará constituido en gran medida por los "Ejercicios Prácticos" y las "Rutas de Avance" a lo largo
-de la cursada. Entrega: En la Clase N° 15  se discutirán las rubricas a evaluar. Tendrás 7 dias de corrido para realizar la entrega. """
-
-"""                                         *** PROYECTO ***
-En Techlab recibimos un nuevo proyecto de un cliente que requiere el desarrollo de una aplicación en Python capaz de gestionar información de
-clientes, productos y pedidos. La solución deberá incluir funcionalidades para registrar, consultar, actualizar y eliminar datos, utilizando
-una base de datos SQLite integrada con el programa.
-"""
-
-"""                                         *** Ruta de avance hacia el Trabajo Final Integrador (TFI) ***
-
-Ahora que llegaste a la clase 4, estás en una posición ideal para comenzar a trabajar en los cimientos del programa que desarrollarás como
-parte del Trabajo Final Integrador (TFI). Como sabés, en este proyecto, vas a crear una aplicación en Python que gestione información sobre
-los productos de una tienda. Es importante que empieces a planificar cómo integrar lo que aprendiste hasta ahora.
-Con los conocimientos adquiridos en las clases anteriores, ya podés diseñar la estructura básica del programa. Por ejemplo, podés usar cadenas
-de texto para almacenar nombres, descripciones y cualquier otro dato textual. También podés aplicar los métodos de cadenas para validar y
-formatear la información que se ingrese por la terminal, como convertir todo a minúsculas o eliminar espacios en blanco innecesarios.
-La validación de las entradas es otro aspecto fundamental que podés abordar con lo aprendido en las clases 3 y 4. Las estructuras
-condicionales como if, elif y match te permiten manejar diferentes escenarios. Por ejemplo, podés validar que un correo electrónico incluya
-el carácter @ o que una edad ingresada sea un número positivo. Esto hace que tu programa sea más robusto y resistente a errores de ingreso.
-También es importante planificar cómo va a interactuar el usuario con tu programa. Podés usar lo que aprendiste para mostrar menús simples
-que permitan elegir entre distintas opciones, como registrar un cliente o consultar los datos ingresados. Pensá en aplicar condicionales y
-métodos de cadenas para hacer más clara y amigable la presentación de estas opciones.
-Aunque todavía no aprendiste a trabajar con bases de datos ni a guardar datos de manera persistente, no te preocupes. Más adelante en el
-curso, vamos a integrar estas herramientas con bases de datos para completar la funcionalidad del proyecto.
-Como tarea concreta, te sugerimos que crees un programa que solicite los datos de un producto y los muestre en formato de tarjeta o ficha,
-utilizando f-Strings para formatear la salida. Aprovechá los métodos de cadenas para validar las entradas y asegurarte de que estén en el
-formato correcto.
-Experimentá. Recordá que cada paso que avances ahora va a facilitar el desarrollo del proyecto final. Es mejor empezar con algo pequeño e ir
-construyendo sobre eso, en lugar de intentar resolver todo de una sola vez.
-"""
-
-# Diagrama: https://drive.google.com/file/d/1_kmaWON2xHdlvu21pZvtc5tqPp8wHA1U/view?usp=sharing
-
-# https://github.com/ClaudioCGG/protectoIntegradorPythonIni
-
-#############################################################################################################
-############################### BASE DE DATOS CON LISTA DE PRODUCTOS INICIAL ################################
-#############################################################################################################
-
-# BASE DE DATOS PRODUCTOS INICIAL
-productos = [
-    {"codigo": 101, "nombre": "Celular", "precio": 400, "descripcion": "Smartphone 2025", "categoria": "Tecnologia"},
-    {"codigo": 102, "nombre": "Notebook", "precio": 1000, "descripcion": "Ultrapotente Gamer", "categoria": "Tecnologia"},
-    {"codigo": 103, "nombre": "Smart TV", "precio": 300, "descripcion": "Smart TV Full HD", "categoria": "Tecnologia"},
-    {"codigo": 104, "nombre": "Robot Aspiradora", "precio": 250, "descripcion": "Limpia, tradea y desinfecta", "categoria": "Pequeños electrodomésticos"},
-    {"codigo": 105, "nombre": "Batidora", "precio": 80, "descripcion":"Batidora Inteligente", "categoria": "Pequeños electrodomésticos"},
-    {"codigo": 106, "nombre": "Microondas", "precio": 150, "descripcion": "Potente y autolimpieza", "categoria": "Cocina"}
-]
-
 # BASE DE CATEGORIAS
 categorias = {
     "1": "Cocina",
@@ -128,9 +72,9 @@ import os # Para limpiar la terminal y cree una experiencia al usuario más agra
 ############################################ *** MENÚ INICIAL *** ###########################################
 
 # ARRANQUE DE SISTEMA Y SALUDO INICIAL
-print("╔═════════════════════════════════════════════════════════════╗")
-print("║  🎉 ¡BIENVENIDO AL PROYECTO INTEGRADOR PRE-ENTREGABLE! 🎉   ║")
-print("╚═════════════════════════════════════════════════════════════╝")
+print("╔═════════════════════════════════════════════════════╗")
+print("║  🎉 ¡BIENVENIDO AL PROYECTO INTEGRADOR FINAL! 🎉   ║")
+print("╚═════════════════════════════════════════════════════╝")
 time.sleep(0.5)
 
 while True:  # MENU INICIAL
@@ -206,7 +150,6 @@ while True:  # MENU INICIAL
     ###########################################################################################
     ##################################### SUB MENU LOGIN ######################################
     elif opcion_inicio == "2":
-        os.system('cls')
         print(f"\n\t\t🔹 Seleccionó:    🔒 INICIAR SESION  \n")
         email = input("Ingresá tu email: ").strip()
         time.sleep(0.5)
@@ -442,7 +385,7 @@ while True:  # MENU INICIAL
                 print("\t 6. 📝 Modificar estado del pedido\n")
                 print("\t 7. ⏪⏪⏪ Volver")
                 opcion_pedido = input("Elegí una opción: ")
-                if opcion_pedido == "1":  # LISTAR PRODUCTOS BUILD:
+                if opcion_pedido == "1":  # LISTAR PRODUCTOS NOW:
                     print("\n📋 Lista de productos:")
                     for p in productos:
                         print(f"Código: {p['codigo']} | Nombre: {p['nombre']} | Precio: ${p['precio']}")
