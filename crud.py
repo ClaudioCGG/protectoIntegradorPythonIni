@@ -2,6 +2,8 @@ import sqlite3
 import re
 from colorama import Fore, init
 from tabulate import tabulate
+from datetime import datetime
+
 
 init(autoreset=True)
 
@@ -422,3 +424,159 @@ def mostrar_categorias_disponibles():
             print(Fore.YELLOW + "ℹ️ No hay categorías registradas.")
     except sqlite3.Error as e:
         print(Fore.RED + f"❌ Error al consultar categorías: {e}")
+
+### Registro de movimiento de stock
+def registrar_movimiento_stock(id_producto, cantidad_input, tipo, origen="", fecha=""):
+    """
+    Registra un movimiento de stock.
+    Si 'fecha' está vacío, se toma la fecha actual.
+    """
+    try:
+        cantidad = int(cantidad_input)
+        if cantidad <= 0:
+            print(Fore.RED + "❌ La cantidad debe ser mayor a cero.")
+            return
+
+        tipo = tipo.strip().lower()
+        if tipo not in ["ingreso", "salida"]:
+            print(Fore.RED + "❌ Tipo inválido. Usá 'ingreso' o 'salida'.")
+            return
+
+        # Validar fecha
+        from datetime import datetime
+        if fecha:
+            try:
+                fecha_final = datetime.strptime(fecha.strip(), "%d/%m/%Y").strftime("%Y-%m-%d")
+            except ValueError:
+                print(Fore.RED + "❌ Fecha inválida. Usá el formato dd/mm/aaaa.")
+                return
+        else:
+            fecha_final = datetime.today().strftime("%Y-%m-%d")
+
+        conexion = sqlite3.connect("inventario.db")
+        cursor = conexion.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
+        cursor.execute("BEGIN TRANSACTION")
+
+        cursor.execute("SELECT nombre FROM productos WHERE id = ?", (id_producto,))
+        producto = cursor.fetchone()
+        if not producto:
+            print(Fore.RED + f"❌ El producto con ID {id_producto} no existe.")
+            return
+
+        cursor.execute('''
+            INSERT INTO stock (id_producto, fecha, cantidad, tipo, origen)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (id_producto, fecha_final, cantidad, tipo, origen))
+
+        conexion.commit()
+        print(Fore.GREEN + f"✅ Movimiento registrado: {tipo.upper()} de {cantidad} unidad(es) para '{producto[0]}'. Fecha: {fecha_final}. Origen: {origen or 'N/A'}.")
+
+    except ValueError:
+        print(Fore.RED + "❌ Cantidad inválida. Ingresá un número entero.")
+        if 'conexion' in locals():
+            conexion.rollback()
+    except sqlite3.Error as e:
+        print(Fore.RED + f"❌ Error en la base de datos: {e}")
+        if 'conexion' in locals():
+            conexion.rollback()
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+
+### Funcion para consultar el stock por id de producto
+def consultar_stock_por_producto(id_producto):
+    """
+    Muestra todos los movimientos de stock para un producto y calcula el stock disponible.
+    """
+    try:
+        conexion = sqlite3.connect("inventario.db")
+        cursor = conexion.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
+
+        # Verificar existencia del producto
+        cursor.execute("SELECT nombre FROM productos WHERE id = ?", (id_producto,))
+        producto = cursor.fetchone()
+        if not producto:
+            print(Fore.RED + f"❌ El producto con ID {id_producto} no existe.")
+            return
+
+        nombre_producto = producto[0]
+
+        # Obtener movimientos
+        cursor.execute('''
+            SELECT fecha, tipo, cantidad, origen
+            FROM stock
+            WHERE id_producto = ?
+            ORDER BY fecha ASC
+        ''', (id_producto,))
+        movimientos = cursor.fetchall()
+
+        if not movimientos:
+            print(Fore.YELLOW + f"ℹ️ No hay movimientos registrados para '{nombre_producto}'.")
+            return
+
+        # Mostrar movimientos
+        print(Fore.CYAN + f"\n📦 Historial de stock para '{nombre_producto}':")
+        print(tabulate(movimientos, headers=["Fecha", "Tipo", "Cantidad", "Origen"], tablefmt="fancy_grid"))
+
+        # Calcular stock actual
+        total_ingresos = sum(m[2] for m in movimientos if m[1] == "ingreso")
+        total_salidas = sum(m[2] for m in movimientos if m[1] == "salida")
+        stock_actual = total_ingresos - total_salidas
+
+        print(Fore.GREEN + f"\n✅ Stock disponible actual: {stock_actual} unidad(es)")
+
+    except sqlite3.Error as e:
+        print(Fore.RED + f"❌ Error en la consulta de stock: {e}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+### Funcion para filtrar cantidad de un producto por rango de cantidad
+def filtrar_stock_por_rango_cantidad(desde_input="", hasta_input=""):
+    """
+    Filtra movimientos de stock según la cantidad entre 'desde' y 'hasta'.
+    Si 'desde' está vacío, se considera 0. 'hasta' es obligatorio.
+    """
+    try:
+        desde = int(desde_input) if desde_input.strip() != "" else 0
+
+        if hasta_input.strip() == "":
+            print(Fore.RED + "❌ Debés ingresar una cantidad máxima para 'hasta'.")
+            return
+
+        hasta = int(hasta_input)
+        if hasta < desde:
+            print(Fore.RED + "❌ La cantidad 'hasta' no puede ser menor que 'desde'.")
+            return
+
+        conexion = sqlite3.connect("inventario.db")
+        cursor = conexion.cursor()
+
+        cursor.execute('''
+            SELECT stock.fecha, productos.nombre, stock.tipo, stock.cantidad, stock.origen
+            FROM stock
+            JOIN productos ON stock.id_producto = productos.id
+            WHERE stock.cantidad BETWEEN ? AND ?
+            ORDER BY stock.fecha ASC
+        ''', (desde, hasta))
+
+        movimientos = cursor.fetchall()
+
+        if movimientos:
+            print(Fore.CYAN + f"\n🔍 Movimientos con cantidad entre {desde} y {hasta}:")
+            print(tabulate(movimientos, headers=["Fecha", "Producto", "Tipo", "Cantidad", "Origen"],
+            tablefmt="fancy_grid"))
+        else:
+            print(Fore.YELLOW + "ℹ️ No se encontraron movimientos en ese rango.")
+
+    except ValueError:
+        print(Fore.RED + "❌ Los valores deben ser números enteros.")
+    except sqlite3.Error as e:
+        print(Fore.RED + f"❌ Error en la consulta: {e}")
+    finally:
+        if 'conexion' in locals():
+            conexion.close()

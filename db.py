@@ -98,3 +98,37 @@ def crear_tabla_categorias():
     finally:
         if 'conexion' in locals():
             conexion.close()
+
+### funcion para crear tabla stock 
+def crear_tabla_stock():
+    """
+    Crea la tabla 'stock' en inventario.db para registrar ingresos de productos.
+    """
+    try:
+        conexion = sqlite3.connect("inventario.db")
+        cursor = conexion.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
+        cursor.execute("BEGIN TRANSACTION")
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS stock (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_producto INTEGER NOT NULL,
+                fecha TEXT NOT NULL,
+                cantidad INTEGER NOT NULL CHECK (cantidad >= 0),
+                origen TEXT,
+                tipo TEXT CHECK (tipo IN ('ingreso', 'salida')),
+                FOREIGN KEY (id_producto) REFERENCES productos(id)
+            )
+        ''')
+
+        conexion.commit()
+        print(Fore.GREEN + "✅ Tabla 'stock' creada correctamente.")
+
+    except sqlite3.Error as e:
+        print(Fore.RED + f"❌ Error al crear la tabla 'stock': {e}")
+        if 'conexion' in locals():
+            conexion.rollback()
+    finally:
+        if 'conexion' in locals():
+            conexion.close()

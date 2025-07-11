@@ -22,7 +22,12 @@ def mostrar_menu():
         print("5. Buscar por categoría")
         print("6. 📝 Actualizar producto")
         print("7. ❌ Eliminar producto")
-        print("0. Salir")
+        print("8. Consultar stock por producto")
+        print("9. Filtrar stock por cantidad")
+        print("10. Registrar movimiento de stock (ingreso o salida)")
+
+
+        print("\n0. Salir")
 
         opcion = input("\n👉 Ingresá una opción: ")
 
@@ -57,6 +62,34 @@ def mostrar_menu():
 
         elif opcion == "7":
             eliminar_producto_por_id(input("🗑️ ID a eliminar: "))
+
+        elif opcion == "8":
+            print("\n🔎 CONSULTAR STOCK POR PRODUCTO")
+            id_producto = input("📦 Ingresá el ID del producto a consultar: ").strip()
+
+            from crud import consultar_stock_por_producto
+            consultar_stock_por_producto(id_producto)
+
+        elif opcion == "9":
+            print("\n📊 FILTRAR STOCK POR RANGO DE CANTIDAD")
+
+            desde = input("🔢 Cantidad mínima (ENTER para 0): ")
+            hasta = input("🔢 Cantidad máxima: ")
+
+            from crud import filtrar_stock_por_rango_cantidad
+            filtrar_stock_por_rango_cantidad(desde, hasta)
+
+        elif opcion == "10":
+            print("\n📥 REGISTRAR MOVIMIENTO DE STOCK")
+
+            id_producto = input("🔢 ID del producto: ").strip()
+            tipo = input("📤 Tipo de movimiento (ingreso/salida): ").strip().lower()
+            cantidad = input("🔢 Cantidad (solo número entero): ").strip()
+            origen = input("📝 Origen o motivo (ej. compra, venta, devolución): ").strip()
+
+            from crud import registrar_movimiento_stock
+            registrar_movimiento_stock(id_producto, cantidad, tipo, origen)
+
 
         elif opcion == "0":
             time.sleep(0.5)
