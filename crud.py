@@ -6,7 +6,7 @@ from tabulate import tabulate
 init(autoreset=True)
 
 
-# funcion insertar producto
+### funcion insertar producto
 
 def insertar_producto(nombre, descripcion, precio_input, id_categoria):
     """
@@ -65,7 +65,7 @@ def insertar_producto(nombre, descripcion, precio_input, id_categoria):
         if 'conexion' in locals():
             conexion.close()
 
-# funcion visualizar productos
+### funcion visualizar productos
 
 def consultar_todos_productos():
     """
@@ -103,69 +103,103 @@ def consultar_todos_productos():
         if 'conexion' in locals():
             conexion.close()
 
-# funcion para actualizar el producto por Id de producto
+### funcion para actualizar el producto por Id de producto
 
-def actualizar_producto_por_id(id_producto, nuevo_nombre, nueva_descripcion, nuevo_precio_input, nueva_categoria_id):
-    """
-    Actualiza todos los campos de un producto por su ID en inventario.db
-    """
-
-    # Validar nombre
-    patron = "^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-]+$"
-    if not re.match(patron, nuevo_nombre.strip()) or len(nuevo_nombre.strip()) > 50:
-        print(Fore.RED + "❌ Nombre inválido. Sin caracteres especiales y máximo 50 caracteres.")
-        return
-
-    # Validar descripción
-    if len(nueva_descripcion.strip()) == 0 or len(nueva_descripcion.strip()) > 250:
-        print(Fore.RED + "❌ Descripción inválida. Debe tener entre 1 y 250 caracteres.")
-        return
+def actualizar_producto_por_id(id_producto):
+    import sqlite3
+    import re
+    from tabulate import tabulate
+    from colorama import Fore, init
+    init(autoreset=True)
 
     try:
-        nuevo_precio = float(nuevo_precio_input)
-        if nuevo_precio < 0:
-            print(Fore.RED + "❌ El precio debe ser positivo.")
-            return
-
         conexion = sqlite3.connect("inventario.db")
         cursor = conexion.cursor()
         cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute("BEGIN TRANSACTION")
 
-        # Verificar si el producto existe
-        cursor.execute("SELECT * FROM productos WHERE id = ?", (id_producto,))
-        producto_actual = cursor.fetchone()
-        if not producto_actual:
+        # Obtener datos actuales
+        cursor.execute('''
+            SELECT productos.id, productos.nombre, productos.descripcion,
+            productos.precio, productos.id_categoria, categorias.nombre
+            FROM productos
+            JOIN categorias ON productos.id_categoria = categorias.id
+            WHERE productos.id = ?
+        ''', (id_producto,))
+        producto = cursor.fetchone()
+
+        if not producto:
             print(Fore.RED + f"❌ No existe un producto con ID {id_producto}.")
             return
 
-        # Verificar si la categoría existe
-        cursor.execute("SELECT nombre FROM categorias WHERE id = ?", (nueva_categoria_id,))
-        categoria_nombre = cursor.fetchone()
-        if not categoria_nombre:
-            print(Fore.RED + f"❌ La categoría con ID {nueva_categoria_id} no existe.")
+        print(Fore.CYAN + "\n🔍 Producto actual:")
+        print(tabulate([producto], headers=["ID", "Nombre", "Descripción", "Precio ($)", "ID Cat.", "Categoría"],
+        tablefmt="fancy_grid", floatfmt=".2f"))
+
+        # Inputs opcionales
+        print(Fore.BLUE + "\n📝 Ingresá nuevos datos o presioná Enter para mantener el valor actual:")
+
+        nombre_input = input(f"📛 Nombre [{producto[1]}]: ").strip()
+        nombre_final = nombre_input if nombre_input else producto[1]
+
+        descripcion_input = input(f"📝 Descripción [{producto[2]}]: ").strip()
+        descripcion_final = descripcion_input if descripcion_input else producto[2]
+
+        precio_input = input(f"💲 Precio [{producto[3]}]: ").strip()
+        try:
+            precio_final = float(precio_input) if precio_input else producto[3]
+            if precio_final < 0:
+                print(Fore.RED + "❌ El precio no puede ser negativo.")
+                return
+        except ValueError:
+            print(Fore.RED + "❌ Precio inválido.")
             return
 
-        # Actualizar el producto
+        # Mostrar categorías
+        cursor.execute("SELECT id, nombre FROM categorias")
+        categorias = cursor.fetchall()
+        print(Fore.CYAN + "\n🗂️ Categorías disponibles:")
+        print(tabulate(categorias, headers=["ID", "Nombre"], tablefmt="grid"))
+
+        categoria_input = input(f"🔢 ID de categoría [{producto[4]}]: ").strip()
+        try:
+            categoria_final = int(categoria_input) if categoria_input else producto[4]
+        except ValueError:
+            print(Fore.RED + "❌ ID de categoría inválido.")
+            return
+
+        # Validaciones
+        if not re.match(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\-]+$", nombre_final) or len(nombre_final) > 50:
+            print(Fore.RED + "❌ Nombre inválido.")
+            return
+        if len(descripcion_final) > 250 or len(descripcion_final) == 0:
+            print(Fore.RED + "❌ Descripción inválida.")
+            return
+
+        cursor.execute("SELECT nombre FROM categorias WHERE id = ?", (categoria_final,))
+        categoria_nombre = cursor.fetchone()
+        if not categoria_nombre:
+            print(Fore.RED + f"❌ La categoría con ID {categoria_final} no existe.")
+            return
+
+        # Actualizar
         cursor.execute('''
             UPDATE productos
             SET nombre = ?, descripcion = ?, precio = ?, id_categoria = ?
             WHERE id = ?
-        ''', (nuevo_nombre.strip(), nueva_descripcion.strip(), nuevo_precio, nueva_categoria_id, id_producto))
-
+        ''', (nombre_final.strip(), descripcion_final.strip(), precio_final, categoria_final, id_producto))
         conexion.commit()
-        print(Fore.GREEN + f"✅ Producto ID {id_producto} actualizado correctamente. Categoría: '{categoria_nombre[0]}'.")
 
-    except ValueError:
-        print(Fore.RED + "❌ Precio inválido. Ingresá un número como 49.99.")
-        if 'conexion' in locals():
-            conexion.rollback()
+        # Mostrar resumen final
+        print(Fore.GREEN + f"\n✅ Producto ID {id_producto} actualizado correctamente.\n")
+        producto_final = (id_producto, nombre_final, descripcion_final, precio_final, categoria_final, categoria_nombre[0])
+        print(tabulate([producto_final], headers=["ID", "Nombre", "Descripción", "Precio ($)", "ID Cat.", "Categoría"],
+        tablefmt="fancy_grid", floatfmt=".2f"))
 
     except sqlite3.Error as e:
         print(Fore.RED + f"❌ Error en la base de datos: {e}")
         if 'conexion' in locals():
             conexion.rollback()
-
     finally:
         if 'conexion' in locals():
             conexion.close()
